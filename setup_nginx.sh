@@ -37,11 +37,21 @@ run ln -s $NGINX_USER_CONF_DIR/nginx.conf $NGINX_CORE_CONF_DIR/nginx.conf
 run mkdir /etc/service/nginx
 run cp -r /webapp_build/runit/nginx.sh /etc/service/nginx/run
 run chmod +x /etc/service/nginx/run;
-run touch /etc/service/nginx/down
 
-#run mkdir /etc/service/nginx-log-forwarder
-#run cp -r /webapp_build/runit/nginx-log-forwarder.sh /etc/service/nginx-log-forwarder/run
-#run chmod +x /etc/service/nginx-log-forwarder/run;
+# Uncomment this to halt auto-start of nginx
+# run touch /etc/service/nginx/down
 
-# Don't know what this does
-#run sed -i 's|invoke-rc.d nginx rotate|sv 1 nginx|' /etc/logrotate.d/nginx
+run mkdir /etc/service/nginx-log-forwarder
+run cp -r /webapp_build/runit/nginx-log-forwarder.sh /etc/service/nginx-log-forwarder/run
+run chmod +x /etc/service/nginx-log-forwarder/run;
+
+# Log rotation
+# In the file /etc/logrotate.d/nginx
+#  Change the line from
+#     invoke-rc.d nginx rotate
+#  to
+#    sv 1 nginx
+#  What this does it allow runit to signal nginx with USR1 which tells nginx
+#  to re-open the logfiles
+#
+run sed -i 's|invoke-rc.d nginx rotate|sv 1 nginx|' /etc/logrotate.d/nginx
