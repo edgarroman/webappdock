@@ -13,11 +13,16 @@ USER_NAME=webuser
 # Now calculate the variables
 USER_HOME=/home/$USER_NAME
 NGINX_USER_CONF_DIR=$USER_HOME/etc/
+
+# Main.d is used to add entries at the root level of nginx.conf
+NGINX_CORE_MAIN_CONF_DIR=/etc/nginx/main.d/
+# conf.d is used to add entries at the http level of nginx.conf
 NGINX_CORE_CONF_DIR=/etc/nginx/conf.d/
 
 # Do the system setup. Essentially we are creating the core nginx.conf
 # file as well as creating /etc/nginx/conf.d/ directory that can be used
 # to add numerous separate and distinct .conf files
+run mkdir -p $NGINX_CORE_MAIN_CONF_DIR
 run mkdir -p $NGINX_CORE_CONF_DIR
 run cp -r /webapp_build/nginx_core.conf /etc/nginx/nginx.conf
 
@@ -27,3 +32,16 @@ run cp -r /webapp_build/nginx_core.conf /etc/nginx/nginx.conf
 run mkdir -p $NGINX_USER_CONF_DIR
 run cp -r /webapp_build/nginx_user.conf $NGINX_USER_CONF_DIR/nginx.conf
 run ln -s $NGINX_USER_CONF_DIR/nginx.conf $NGINX_CORE_CONF_DIR/nginx.conf
+
+# Setup launch at startup
+run mkdir /etc/service/nginx
+run cp -r /webapp_build/runit/nginx.sh /etc/service/nginx/run
+run chmod +x /etc/service/nginx/run;
+run touch /etc/service/nginx/down
+
+#run mkdir /etc/service/nginx-log-forwarder
+#run cp -r /webapp_build/runit/nginx-log-forwarder.sh /etc/service/nginx-log-forwarder/run
+#run chmod +x /etc/service/nginx-log-forwarder/run;
+
+# Don't know what this does
+#run sed -i 's|invoke-rc.d nginx rotate|sv 1 nginx|' /etc/logrotate.d/nginx
