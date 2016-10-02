@@ -1,8 +1,5 @@
 FROM emroman/pythondock:uwsgi2
 
-RUN apt-get update
-RUN apt-get install -y nginx
-
 ADD . /webapp_build
 RUN /webapp_build/setup.sh
 

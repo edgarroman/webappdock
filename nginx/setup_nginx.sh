@@ -5,8 +5,8 @@ source /webapp_build/buildconfig
 header "Setting up NGINX"
 
 # Moved to DockerFile for temp quick build
-#run apt-get update
-#run apt-get install -y nginx
+run apt-get update
+run apt-get install -y nginx
 
 # This username should match what is in setup_user.sh
 USER_NAME=webuser

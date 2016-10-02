@@ -6,3 +6,4 @@ run /webapp_build/setup_user.sh
 run /webapp_build/uwsgi/setup_uwsgi.sh
 run /webapp_build/nginx/setup_nginx.sh
 
+run /webapp_build/setup_finalize.sh
