@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source /webapp_build/buildconfig
+source /image_build/buildconfig
 
 header "Setting up webuser"
 

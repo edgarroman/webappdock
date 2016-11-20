@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source /webapp_build/buildconfig
+source /image_build/buildconfig
 
 header "Setting up NGINX"
 
@@ -24,25 +24,25 @@ NGINX_CORE_CONF_DIR=/etc/nginx/conf.d/
 # to add numerous separate and distinct .conf files
 run mkdir -p $NGINX_CORE_MAIN_CONF_DIR
 run mkdir -p $NGINX_CORE_CONF_DIR
-run cp -r /webapp_build/nginx/config/nginx_core.conf /etc/nginx/nginx.conf
+run cp -r /image_build/nginx/config/nginx_core.conf /etc/nginx/nginx.conf
 
 # Do the local user setup
 # By symbolic linking of the user nginx.conf file to the nginx conf directory
 # the user may push updates to nginx without needing root access
 run mkdir -p $NGINX_USER_CONF_DIR
-run cp -r /webapp_build/nginx/config/nginx_user.conf $NGINX_USER_CONF_DIR/nginx.conf
+run cp -r /image_build/nginx/config/nginx_user.conf $NGINX_USER_CONF_DIR/nginx.conf
 run ln -s $NGINX_USER_CONF_DIR/nginx.conf $NGINX_CORE_CONF_DIR/nginx.conf
 
 # Setup launch at startup
 run mkdir /etc/service/nginx
-run cp -r /webapp_build/nginx/runit/nginx.sh /etc/service/nginx/run
+run cp -r /image_build/nginx/runit/nginx.sh /etc/service/nginx/run
 run chmod +x /etc/service/nginx/run;
 
 # Uncomment this to halt auto-start of nginx
 # run touch /etc/service/nginx/down
 
 run mkdir /etc/service/nginx-log-forwarder
-run cp -r /webapp_build/nginx/runit/nginx-log-forwarder.sh /etc/service/nginx-log-forwarder/run
+run cp -r /image_build/nginx/runit/nginx-log-forwarder.sh /etc/service/nginx-log-forwarder/run
 run chmod +x /etc/service/nginx-log-forwarder/run;
 
 # Log rotation

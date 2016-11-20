@@ -1,9 +1,11 @@
 #!/bin/bash
 set -e
-source /webapp_build/buildconfig
+source /image_build/buildconfig
 
-run /webapp_build/setup_user.sh
-run /webapp_build/uwsgi/setup_uwsgi.sh
-run /webapp_build/nginx/setup_nginx.sh
+run pip3 install setproctitle
 
-run /webapp_build/setup_finalize.sh
+run /image_build/setup_user.sh
+run /image_build/uwsgi/setup_uwsgi.sh
+run /image_build/nginx/setup_nginx.sh
+
+run /image_build/setup_finalize.sh
